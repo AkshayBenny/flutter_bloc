@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_learn/bloc/counter_bloc.dart';
 import 'package:flutter_bloc_learn/cubit/counter_cubit.dart';
 import 'package:flutter_bloc_learn/inc_dec_page.dart';
 
@@ -11,6 +12,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final counterCubit = BlocProvider.of<CounterCubit>(context);
+    final counterBloc = BlocProvider.of<CounterBloc>(context);
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -23,14 +25,12 @@ class MyHomePage extends StatelessWidget {
               const Text(
                 'You have pushed the button this many times:',
               ),
-              BlocBuilder<CounterCubit, int>(
-                  bloc: counterCubit,
-                  builder: (context, counter) {
-                    return Text(
-                      '$counter',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    );
-                  })
+              BlocBuilder<CounterBloc, int>(builder: (context, counter) {
+                return Text(
+                  '$counter',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                );
+              })
             ],
           ),
         ),
@@ -40,11 +40,8 @@ class MyHomePage extends StatelessWidget {
           children: [
             FloatingActionButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const IncDecPage(),
-                  ),
-                );
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const IncDecPage()));
               },
               tooltip: 'Navigation',
               child: const Icon(Icons.arrow_right),
